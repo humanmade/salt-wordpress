@@ -1,0 +1,78 @@
+base:
+  '*':
+    - salt-patches
+    - sysops-ssh-keys
+
+  'role:salt-master':
+    - match: grain
+    - salt-master
+    - salt-master.developers
+    - hm-stack
+    - aws
+
+  'role:webserver':
+    - match: grain
+    - webserver
+    - nginx
+    {% if 'hhvm' in grains %}
+    - hhvm
+    {% else %}
+    - php
+    {% endif %}
+    - webserver-ssh-keys
+    {% if 'ec2_public-ipv4' in grains %}
+    - newrelic
+    - logstash-forwarder
+    {% endif %}
+    {% if 'ec2_public-ipv4' in grains and not 'hhvm' in grains %}
+    - newrelic-php
+    {% endif %}
+    {% if 'project' in grains %}
+    - projects.{{ grains.project }}
+    {% endif %}
+
+  'role:elasticsearchserver':
+    - match: grain
+    - webserver-ssh-keys
+    - elasticsearchserver
+
+  'role:logstashserver':
+    - match: grain
+    - webserver-ssh-keys
+    - logstashserver
+
+  'role:appserver':
+    - match: grain
+    - webserver-ssh-keys
+    - appserver
+    - nginx
+    {% if 'hhvm' in grains %}
+    - hhvm
+    {% else %}
+    - php
+    {% endif %}
+    {% if 'ec2_public-ipv4' in grains %}
+    - newrelic
+    - logstash-forwarder
+    {% endif %}
+    {% if 'ec2_public-ipv4' in grains and not 'hhvm' in grains %}
+    - newrelic-php
+    {% endif %}
+    {% if 'project' in grains and grains.project == 'wpremote-production' %}
+    - projects.wpremote
+    {% endif %}
+
+<<<<<<< HEAD
+  'role:photonserver':
+    - match: grain
+    - webserver-ssh-keys
+    - photonserver
+=======
+  'role:glotpressserver':
+    - match: grain
+    - webserver-ssh-keys
+    - appserver
+    - nginx
+    - php
+    - glotpressserver
+>>>>>>> master
