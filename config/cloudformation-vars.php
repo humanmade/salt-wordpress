@@ -10,7 +10,7 @@ defined( 'DB_PASSWORD' ) or define( "DB_PASSWORD", "{{ grains['deployment_mysql_
 defined( 'DB_NAME' ) or define( "DB_NAME", "{{ grains['deployment_mysql_db_name'] }}" );
 defined( 'DB_USER' ) or define( "DB_USER", "{{ grains['deployment_mysql_username'] }}" );
 
-{% if {{ grains['deployment_s3_uploads_path'] }} != None }
+{% if {{ grains['deployment_s3_uploads_path'] }} != None %}
 	defined( 'S3_UPLOADS_BUCKET' ) or define( 'S3_UPLOADS_BUCKET', "{{ grains['deployment_s3_uploads_bucket'] }}/{{ grains['deployment_s3_uploads_path'] }}" );
 {% else %}
 	defined( 'S3_UPLOADS_BUCKET' ) or define( 'S3_UPLOADS_BUCKET', "{{ grains['deployment_s3_uploads_bucket'] }}" );
