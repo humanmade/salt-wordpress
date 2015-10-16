@@ -20,7 +20,6 @@ webroot:
     - force: True
     - require:
       - file: /srv/www
-      - file: /home/{{ grains['user'] }}/.ssh/id_rsa
 
 /srv/www:
   file.directory:
